@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM HIJACKED - GitHub</title>
+    <style>
+        /* Menggunakan font monospace standar untuk kesan hacker */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: #0d1117; /* Warna gelap khas GitHub */
+            color: #c9d1d9;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Background efek matrix digital */
+        #bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        /* Kontainer Utama */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(22, 27, 34, 0.85);
+            padding: 40px;
+            border: 2px solid #f85149; /* Warna merah warning GitHub */
+            border-radius: 6px;
+            box-shadow: 0 0 25px rgba(248, 81, 73, 0.3);
+            max-width: 650px;
+            width: 90%;
+        }
+
+        /* Logo GitHub yang dimodifikasi */
+        .logo-box {
+            margin-bottom: 20px;
+        }
+
+        .github-icon {
+            fill: #f85149;
+            animation: pulse 2s infinite;
+        }
+
+        /* Animasi Glitch pada Teks */
+        .glitch {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #f85149;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        /* Sub-informasi peretasan */
+        .status-msg {
+            color: #58a6ff;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            border-right: 2px solid #58a6ff;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            animation: typing 4s steps(40, end) infinite, blink 0.75s step-end infinite;
+        }
+
+        /* Detail Konsol Log */
+        .console-box {
+            background: #010409;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #7ee787; /* Warna hijau sukses/proses */
+            height: 150px;
+            overflow-y: hidden;
+            margin-bottom: 20px;
+        }
+
+        .console-line {
+            margin-bottom: 5px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        /* Watermark Tim Keamanan */
+        .footer-credit {
+            font-size: 0.9rem;
+            color: #8b949e;
+            margin-top: 25px;
+        }
+
+        .footer-credit span {
+            color: #ff7b72;
+            font-weight: bold;
+        }
+
+        /* Definisi Animasi */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #58a6ff; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas untuk background biner digital -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Halaman utama peretasan -->
+    <div class="container">
+        <div class="logo-box">
+            <!-- SVG Logo GitHub Resmi dengan warna merah kustom -->
+            <svg class="github-icon" height="80" viewBox="0 0 16 16" width="80" aria-hidden="true">
+                <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82A7.48 7.48 0 0 0 8 2.5c-.68.006-1.36.089-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.35 2.69.91 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+            </svg>
+        </div>
+
+        <div class="glitch">GitHub Hijacked</div>
+        <div class="status-msg">REPOSITORY ACCESS: COMPROMISED...</div>
+
+        <!-- Tampilan Log Aktivitas -->
+        <div class="console-box" id="consoleLog">
+            <!-- Baris log diisi otomatis oleh JavaScript -->
+        </div>
+
+        <div class="footer-credit">
+            Secured by: <span>[ MR INDONESIA-EXPLOIT ]</span>
+        </div>
+    </div>
+
+    <script>
+        // Efek Background Hujan Kode Biner (Matrix)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const binChars = ['0', '1', 'X', 'Y', 'GITHUB', 'ROOT', 'ACCESS'];
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const dropPositions = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#f85149'; // Efek warna merah glitched data
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < dropPositions.length; i++) {
+                const text = binChars[Math.floor(Math.random() * binChars.length)];
+                ctx.fillText(text, i * fontSize, dropPositions[i] * fontSize);
+
+                if (dropPositions[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    dropPositions[i] = 0;
+                }
+                dropPositions[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        // Simulasi Log Terminal Berurutan
+        const logs = [
+            "[i] Connecting to github.com OAuth protocol...",
+            "[+] Token bypass signature accepted.",
+            "[+] Fetching master repositories data...",
+            "[-] Deleting tracking system webhooks...",
+            "[!] Overwriting branch protection rule: main",
+            "[+] Hijack process successfully finalized."
+        ];
+
+        const consoleBox = document.getElementById('consoleLog');
+        let currentLine = 0;
+
+        function printLogLines() {
+            if (currentLine < logs.length) {
+                const line = document.createElement('div');
+                line.className = 'console-line';
+                line.innerText = logs[currentLine];
+                consoleBox.appendChild(line);
+                
+                // Secara otomatis scroll ke baris terbawah
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+                
+                currentLine++;
+                setTimeout(printLogLines, 1200); // Jeda waktu per baris log
+            }
+        }
+        printLogLines();
+
+        // Mengatur ulang ukuran canvas saat window diubah ukurannya
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
